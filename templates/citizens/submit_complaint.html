@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Complaint - CitizenConnect{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-3xl mx-auto animate__animated animate__fadeIn">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+            <div class="gradient-bg p-6 text-white">
+                <h1 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-edit mr-3"></i> Submit a Complaint/Feedback
+                </h1>
+                <p class="mt-2 opacity-90">Please provide details about the issue you're experiencing with public services.</p>
+            </div>
+            
+            <div class="p-6">
+                <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <!-- Animated form steps (can be Alpine.js component) -->
+                    <div x-data="{ step: 1 }">
+                        <!-- Step 1 -->
+                        <div x-show="step === 1" x-transition:enter="transition ease-out duration-300" 
+                             x-transition:enter-start="opacity-0 transform translate-x-10" 
+                             x-transition:enter-end="opacity-100 transform translate-x-0">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2" for="category">
+                                    Category <span class="text-red-500">*</span>
+                                </label>
+                                <select name="category" id="category" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                                    <option value="">Select a category</option>
+                                    <option value="road">Roads & Transportation</option>
+                                    <option value="sanitation">Sanitation & Waste</option>
+                                    <option value="water">Water Supply</option>
+                                    <option value="electricity">Electricity Issues</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2" for="title">
+                                    Title <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="title" id="title" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Brief description of your issue">
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button type="button" @click="step = 2" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div x-show="step === 2" x-transition:enter="transition ease-out duration-300" 
+                             x-transition:enter-start="opacity-0 transform translate-x-10" 
+                             x-transition:enter-end="opacity-100 transform translate-x-0">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2" for="description">
+                                    Detailed Description <span class="text-red-500">*</span>
+                                </label>
+                                <textarea name="description" id="description" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Please describe your issue in detail..."></textarea>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">
+                                    Upload Evidence (Optional)
+                                </label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition cursor-pointer" id="dropZone">
+                                    <input type="file" name="attachments" id="attachments" class="hidden" multiple>
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                                    <p class="text-gray-500">Drag & drop files here or click to browse</p>
+                                    <p class="text-sm text-gray-400 mt-2">Supports JPG, PNG, PDF (max 5MB each)</p>
+                                </div>
+                                <div id="filePreview" class="mt-4 grid grid-cols-3 gap-3 hidden"></div>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <button type="button" @click="step = 1" class="text-blue-600 hover:text-blue-800 font-bold py-3 px-6 rounded-lg transition">
+                                    <i class="fas fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <button type="button" @click="step = 3" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div x-show="step === 3" x-transition:enter="transition ease-out duration-300" 
+                             x-transition:enter-start="opacity-0 transform translate-x-10" 
+                             x-transition:enter-end="opacity-100 transform translate-x-0">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2" for="location">
+                                    Location <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="location" id="location" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Address or landmark near the issue">
+                                <p class="text-sm text-gray-500 mt-2">Or click the button below to select on map</p>
+                                <button type="button" class="mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                                    <i class="fas fa-map-marker-alt mr-2"></i> Select on Map
+                                </button>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2" for="contact">
+                                    Contact Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="contact" id="contact" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Your email address for updates">
+                            </div>
+                            
+                            <div class="flex items-center mb-6">
+                                <input type="checkbox" name="anonymous" id="anonymous" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="anonymous" class="ml-2 text-gray-700">Submit anonymously (your personal details won't be shared)</label>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <button type="button" @click="step = 2" class="text-blue-600 hover:text-blue-800 font-bold py-3 px-6 rounded-lg transition">
+                                    <i class="fas fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
+                                    Submit Complaint <i class="fas fa-paper-plane ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 animate__animated animate__fadeInUp">
+            <h3 class="text-lg font-semibold text-blue-800 mb-3 flex items-center">
+                <i class="fas fa-info-circle mr-2"></i> What happens next?
+            </h3>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>You'll receive a confirmation email with your complaint reference number</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Your complaint will be routed to the appropriate government department</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>You can track the status of your complaint using your reference number</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>The responsible agency will respond within 3-5 working days</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // File upload handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('attachments');
+        const filePreview = document.getElementById('filePreview');
+        
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-blue-400', 'bg-blue-50');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-blue-400', 'bg-blue-50');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-400', 'bg-blue-50');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(e.dataTransfer.files);
+            }
+        });
+        
+        function handleFiles(files) {
+            filePreview.innerHTML = '';
+            if (files.length > 0) {
+                filePreview.classList.remove('hidden');
+                dropZone.classList.add('hidden');
+                
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'relative group';
+                        
+                        if (file.type.startsWith('image/')) {
+                            previewItem.innerHTML = `
+                                <img src="${e.target.result}" alt="${file.name}" class="w-full h-32 object-cover rounded-lg">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                    <button type="button" class="text-white hover:text-red-400 transition" onclick="removeFile(this)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <p class="text-xs text-gray-600 truncate mt-1">${file.name}</p>
+                            `;
+                        } else {
+                            previewItem.innerHTML = `
+                                <div class="w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-file text-4xl text-gray-400"></i>
+                                </div>
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                    <button type="button" class="text-white hover:text-red-400 transition" onclick="removeFile(this)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <p class="text-xs text-gray-600 truncate mt-1">${file.name}</p>
+                            `;
+                        }
+                        
+                        filePreview.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+        
+        window.removeFile = function(button) {
+            const item = button.closest('.relative');
+            item.remove();
+            
+            if (filePreview.children.length === 0) {
+                filePreview.classList.add('hidden');
+                dropZone.classList.remove('hidden');
+            }
+        };
+    });
+</script>
+{% endblock %}

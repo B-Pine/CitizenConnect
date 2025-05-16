@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - CitizenConnect{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 flex-shrink-0">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden sticky top-6">
+                <div class="gradient-bg p-4 text-white">
+                    <h2 class="text-xl font-bold">Admin Dashboard</h2>
+                    <p class="text-sm opacity-90">Welcome back, {{ user.username }}</p>
+                </div>
+                <nav class="p-4">
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-blue-50 text-blue-600 font-medium">
+                                <i class="fas fa-tachometer-alt w-5"></i>
+                                <span>Overview</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 transition">
+                                <i class="fas fa-inbox w-5"></i>
+                                <span>Complaints</span>
+                                <span class="ml-auto bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">24</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 transition">
+                                <i class="fas fa-users w-5"></i>
+                                <span>Citizens</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 transition">
+                                <i class="fas fa-building w-5"></i>
+                                <span>Agencies</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 transition">
+                                <i class="fas fa-chart-bar w-5"></i>
+                                <span>Analytics</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 transition">
+                                <i class="fas fa-cog w-5"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-grow">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <!-- Stats Cards -->
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover animate__animated animate__fadeIn">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Total Complaints</p>
+                            <h3 class="text-3xl font-bold mt-1">1,842</h3>
+                        </div>
+                        <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+                            <i class="fas fa-inbox text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center text-sm text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span>12% from last month</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover animate__animated animate__fadeIn animate__delay-1s">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Resolved</p>
+                            <h3 class="text-3xl font-bold mt-1">1,254</h3>
+                        </div>
+                        <div class="bg-green-100 text-green-600 p-3 rounded-full">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center text-sm text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span>8% from last month</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover animate__animated animate__fadeIn animate__delay-2s">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">In Progress</p>
+                            <h3 class="text-3xl font-bold mt-1">342</h3>
+                        </div>
+                        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full">
+                            <i class="fas fa-sync-alt text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center text-sm text-red-500">
+                            <i class="fas fa-arrow-down mr-1"></i>
+                            <span>5% from last month</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover animate__animated animate__fadeIn animate__delay-3s">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Avg. Resolution</p>
+                            <h3 class="text-3xl font-bold mt-1">3.2 <span class="text-lg">days</span></h3>
+                        </div>
+                        <div class="bg-purple-100 text-purple-600 p-3 rounded-full">
+                            <i class="fas fa-clock text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center text-sm text-green-500">
+                            <i class="fas fa-arrow-down mr-1"></i>
+                            <span>0.8 days less</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Complaints -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6 animate__animated animate__fadeIn">
+                <div class="border-b border-gray-200 p-6 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-800">Recent Complaints</h2>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">View All</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Submitted</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CC-2023-10582</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Roads</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Pothole on Main St</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs rounded-full status-pending text-white">Pending</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                    <a href="#" class="text-green-600 hover:text-green-900">Assign</a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CC-2023-10581</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sanitation</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Garbage not collected</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5 hours ago</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs rounded-full status-in-progress text-white">In Progress</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                    <a href="#" class="text-green-600 hover:text-green-900">Respond</a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CC-2023-10580</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Water</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Leaking water pipe</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1 day ago</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs rounded-full status-resolved text-white">Resolved</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                    <a href="#" class="text-purple-600 hover:text-purple-900">Feedback</a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CC-2023-10579</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Electricity</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Street light outage</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 days ago</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs rounded-full status-in-progress text-white">In Progress</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                    <a href="#" class="text-green-600 hover:text-green-900">Update</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl shadow-md p-6 animate__animated animate__fadeIn">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Complaints by Category</h3>
+                        <select class="text-sm border border-gray-300 rounded-md px-3 py-1 focus:ring-blue-500 focus:border-blue-500">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                        </select>
+                    </div>
+                    <div class="h-64">
+                        <!-- Chart placeholder - would be replaced with Chart.js or similar -->
+                        <div class="w-full h-full flex items-center justify-center bg-gray-50 rounded-lg">
+                            <p class="text-gray-400">Complaints by category chart</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 animate__animated animate__fadeIn animate__delay-1s">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Resolution Timeline</h3>
+                        <select class="text-sm border border-gray-300 rounded-md px-3 py-1 focus:ring-blue-500 focus:border-blue-500">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                        </select>
+                    </div>
+                    <div class="h-64">
+                        <!-- Chart placeholder - would be replaced with Chart.js or similar -->
+                        <div class="w-full h-full flex items-center justify-center bg-gray-50 rounded-lg">
+                            <p class="text-gray-400">Resolution timeline chart</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Agency Performance -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden animate__animated animate__fadeIn">
+                <div class="border-b border-gray-200 p-6">
+                    <h2 class="text-xl font-bold text-gray-800">Agency Performance</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Agency</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Open</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">In Progress</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resolved</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg. Time</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Satisfaction</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Transportation</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">8</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">142</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2.8 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-24 bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-green-600 h-2.5 rounded-full" style="width: 78%"></div>
+                                        </div>
+                                        <span class="text-sm">78%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Sanitation</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">6</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">98</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3.1 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-24 bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-green-600 h-2.5 rounded-full" style="width: 82%"></div>
+                                        </div>
+                                        <span class="text-sm">82%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Water</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">76</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4.2 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-24 bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 65%"></div>
+                                        </div>
+                                        <span class="text-sm">65%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Electricity</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">7</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">68</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5.1 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-24 bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-red-500 h-2.5 rounded-full" style="width: 58%"></div>
+                                        </div>
+                                        <span class="text-sm">58%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CitizenConnect - {% block title %}{% endblock %}</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #f0f4f8;
+            background-image: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.05) 0%, rgba(37, 99, 235, 0.05) 90%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Status indicators */
+        .status-pending { background-color: #f59e0b; }
+        .status-in-progress { background-color: #3b82f6; }
+        .status-resolved { background-color: #10b981; }
+        .status-rejected { background-color: #ef4444; }
+        
+        /* Pulse animation for new notifications */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Animated Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center animate__animated animate__fadeInDown">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-handshake-angle text-3xl text-yellow-300"></i>
+                    <h1 class="text-2xl font-bold">Citizen<span class="text-yellow-300">Connect</span></h1>
+                </div>
+                <nav>
+                    <ul class="flex space-x-6">
+                        <li><a href="{% url 'home' %}" class="hover:text-yellow-300 transition">Home</a></li>
+                        <li><a href="{% url 'submit_complaint' %}" class="hover:text-yellow-300 transition">Submit Complaint</a></li>
+                        <li><a href="{% url 'track_complaint' %}" class="hover:text-yellow-300 transition">Track Status</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'dashboard' %}" class="bg-white text-blue-600 px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition">Dashboard</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}" class="hover:text-yellow-300 transition">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Animated Footer -->
+    <footer class="bg-slate-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="animate__animated animate__fadeInUp">
+                    <h3 class="text-xl font-bold mb-4 text-yellow-300">CitizenConnect</h3>
+                    <p class="text-slate-300">Your voice matters. Our platform connects citizens with government agencies for efficient complaint resolution.</p>
+                </div>
+                <div class="animate__animated animate__fadeInUp animate__delay-1s">
+                    <h3 class="text-xl font-bold mb-4 text-yellow-300">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-300 hover:text-yellow-300 transition">About Us</a></li>
+                        <li><a href="#" class="text-slate-300 hover:text-yellow-300 transition">FAQ</a></li>
+                        <li><a href="#" class="text-slate-300 hover:text-yellow-300 transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                    <h3 class="text-xl font-bold mb-4 text-yellow-300">Contact</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center space-x-2 text-slate-300"><i class="fas fa-phone"></i> <span>+1 234 567 890</span></li>
+                        <li class="flex items-center space-x-2 text-slate-300"><i class="fas fa-envelope"></i> <span>support@citizenconnect.gov</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-700 mt-8 pt-6 text-center text-slate-400 animate__animated animate__fadeIn">
+                <p>&copy; 2023 CitizenConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alpine.js for interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Simple form submission animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                        submitBtn.disabled = true;
+                    }
+                });
+            });
+            
+            // Status tracking animation
+            const statusBars = document.querySelectorAll('.status-bar');
+            statusBars.forEach(bar => {
+                const percent = bar.getAttribute('data-percent');
+                bar.style.width = percent + '%';
+            });
+        });
+    </script>
+</body>
+</html>
