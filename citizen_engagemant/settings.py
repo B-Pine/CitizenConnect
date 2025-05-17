@@ -31,12 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'citizens.apps.CitizensConfig',
+    'government.apps.GovernmentConfig',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +83,9 @@ DATABASES = {
     }
 }
 
+# Media configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -121,3 +127,41 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+}
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Citizen Connect",
+    "site_header": "Citizen Connect",
+    "site_brand": "CitizenConnect",
+    "welcome_sign": "Welcome to CitizenConnect platform",
+    "copyright": "Citizen Connect, Inc.",
+    "search_model": ["auth.User", "auth.Group"],
+
+    # Navigation
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "order_with_respect_to": ["auth", "books"],
+
+    # Top Menu
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+        {"model": "auth.User"},
+    ],
+
+    # User Menu
+    "usermenu_links": [
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+    ],
+
+    # UI Tweaks
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "changeform_format": "horizontal_tabs",
+}
