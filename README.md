@@ -43,7 +43,7 @@ graph TD
 
 #### Clone repository
 ```bash
-git clone https://github.com/yourusername/citizen-engagement.git
+git clone https://github.com/B-Pine/citizen-engagement.git
 cd citizen-engagement
 ```
 
