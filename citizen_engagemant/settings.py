@@ -50,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'citizens.middleware.CategoryAdminMiddleware',
+
 ]
 
 ROOT_URLCONF = 'citizen_engagemant.urls'
@@ -128,9 +130,22 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-JAZZMIN_UI_TWEAKS = {
-    "theme": "darkly",
-}
+AUTH_USER_MODEL = 'citizens.CustomUser'
+
+DOMAIN = '127.0.0.1:8000'
+
+
+# Email Configuration
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # For production
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
+
+# EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
+# EMAIL_PORT = 587  # For TLS
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'pine06858@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-email-password'
+# DEFAULT_FROM_EMAIL = 'your@email.com'
+
 
 JAZZMIN_SETTINGS = {
     "site_title": "Citizen Connect",

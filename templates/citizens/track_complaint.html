@@ -101,7 +101,7 @@
                                 <p class="mt-1 text-gray-700 whitespace-pre-line">{{ update.comment }}</p>
                                 {% if update.author %}
                                 <p class="mt-2 text-sm text-gray-500">
-                                    Updated by: {{ update.author.get_full_name|default:update.author.username }}
+                                    Updated on: {{ update.created_at|date:"M d, Y H:i" }}
                                 </p>
                                 {% endif %}
                             </div>
@@ -111,7 +111,7 @@
                 </div>
                 
                 <!-- Add response (for staff users) -->
-                {% if user.is_staff %}
+                {% if user.is_category_admin %}
                 <div class="mt-8 border-t border-gray-200 pt-6">
                     <h3 class="text-lg font-semibold mb-4 text-gray-800">Add Update</h3>
                     <form method="POST" action="{% url 'update_complaint_status' pk=complaint.pk %}" class="space-y-4">

@@ -1,12 +1,67 @@
+from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import DetailView
 from .models import Complaint, ComplaintCategory, ComplaintUpdate, ComplaintAttachment
-from .forms import ComplaintForm
-import uuid
 
+
+
+def is_category_admin(user):
+    return user.is_authenticated and user.is_category_admin
+
+
+@login_required
+@user_passes_test(is_category_admin)
+def category_dashboard(request):
+    category = request.user.managed_category
+    complaints = Complaint.objects.filter(
+        category=category
+    ).order_by('-created_at')
+
+    status_counts = complaints.values('status').annotate(count=models.Count('id'))
+    your_assigned_count = complaints.filter(assigned_to=request.user).count()
+
+    return render(request, 'government/category_dashboard.html', {
+        'category': category,
+        'complaints': complaints,
+        'your_assigned_count': your_assigned_count,
+        'status_counts': status_counts,
+        'pending_count': complaints.filter(status='pending').count(),
+        'in_progress_count': complaints.filter(status='in_progress').count(),
+        'resolved_count': complaints.filter(status='resolved').count(),
+    })
+
+
+@login_required
+@user_passes_test(is_category_admin)
+def update_complaint_status(request, pk):
+    complaint = get_object_or_404(Complaint, pk=pk, category=request.user.managed_category)
+
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        comment = request.POST.get('comment')
+
+        if status and comment:
+            ComplaintUpdate.objects.create(
+                complaint=complaint,
+                author=request.user,
+                status=status,
+                comment=comment
+            )
+
+            complaint.status = status
+            complaint.assigned_to = request.user if status == 'in_progress' else None
+            complaint.save()
+
+            messages.success(request, 'Complaint status updated successfully!')
+        else:
+            messages.error(request, 'Please provide both status and comment.')
+
+        return redirect('category_dashboard')
+
+    return redirect('category_dashboard')
 
 
 def login_view(request):
@@ -24,7 +79,7 @@ def login_view(request):
 
             # Redirect to next parameter if it exists
             next_url = request.GET.get('next')
-            return redirect(next_url if next_url else 'dashboard')
+            return redirect(next_url if next_url else 'category_dashboard')
         else:
             messages.error(request, 'Invalid username or password')
 
@@ -67,7 +122,7 @@ def submit_complaint(request):
                 location=location,
                 contact_email=contact_email,
                 is_anonymous=is_anonymous,
-                user=request.user if request.user.is_authenticated else None
+
             )
 
             # Handle file attachments
@@ -81,7 +136,6 @@ def submit_complaint(request):
             # Create initial status update
             ComplaintUpdate.objects.create(
                 complaint=complaint,
-                author=complaint.user,
                 status='pending',
                 comment='Complaint received and is being processed.'
             )
@@ -160,7 +214,6 @@ def update_complaint_status(request, pk):
         if status and comment:
             ComplaintUpdate.objects.create(
                 complaint=complaint,
-                author=request.user,
                 status=status,
                 comment=comment
             )
